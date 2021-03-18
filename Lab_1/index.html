@@ -1,0 +1,196 @@
+<!-- 1. Якоря
+2. минимум 5 абзацев текста
+3. хотя бы одну картинку вставить
+4. сслыку хотя бы 1 вставить
+5. как можно больше css с текстом
+6. список добавить
+7. отценрировать
+8. :link — не посещенная ссылка;
+:visited — посещенная ссылка;
+:hover — любой элемент, по которому проводят курсором мыши; -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: rgb(13, 131, 131);
+        }
+        div {
+            color: black;
+            background-color: rgb(13, 131, 131); 
+            margin: 10px 100px 20px 100px;
+            padding: 20px 100px 20px 100px;
+            border: black;
+            border-style: dashed;
+        }
+        .anchors {
+            margin: 10px 10px 10px 10px;
+            padding: 5px 5px 5px 5px;
+            height: 30px;
+            text-align: center;
+            border-style: none;
+        }
+        .anchor {
+            text-decoration: none;
+            padding-left: 50px;
+            padding-right: 50px;
+            margin-left: 10px;
+            margin-right: 10px;
+            border-radius: 10px;
+            border-color: black;
+            border-style: solid;
+        }
+        .anchor:visited {
+            color: black;
+        }
+        .anchor:link {
+            color: black;
+        }
+        .anchor:hover {
+            background-color: rgb(12, 99, 99);
+        }
+        .paragraph_1 {
+            font-family: fantasy;
+            font-style: italic;
+            font-size: 20px;
+            text-transform: capitalize;
+            text-indent: 50px;
+            line-height: 40px;
+        }
+        .paragraph_2 {
+            background-color: rgb(235, 169, 88);
+            color: blue;
+            text-decoration: line-through;
+            text-decoration-style: wavy;
+            text-decoration-color: black;
+            height: 200px;
+        }
+        .paragraph_3 {
+            background-color: blueviolet;
+            text-decoration: overline;
+            text-align: center;
+            margin-top: 200px;
+            margin-bottom: 100px;
+            padding: 10px 200px 20px 200px;
+            font-weight: bolder;
+            border-radius: 30px;
+        }
+        .paragraph_4 {
+            background-color: brown;
+            word-spacing: 10px;
+            border-radius: 50px;
+            font-family: monospace
+        }
+        .paragraph_5 {
+            background-color: coral;
+            text-decoration: underline;
+            text-decoration-color: blue;
+            text-decoration-style: wavy ;
+            text-indent: 50px;
+            letter-spacing: 5px;
+        }
+        ul {
+            margin-left: 20px;
+        }
+        li {
+            height: 30px;
+        }
+        ol {
+            margin-top: 20px;
+            margin-left: 20px;
+            width: 100px;
+        }
+        li:hover{
+            font-size: 20px;
+            font-weight: bolder;
+        } 
+        a:link {
+             color: darkorange; 
+        }
+        a:visited{
+            color: brown;
+        }
+        a:hover {
+            color: chartreuse; 
+        }
+        .paragraph_2:hover{
+            color: crimson;
+            text-decoration: none;
+            font-size: 15px;
+            background-color: cyan;
+            border-radius: 50px;
+        }
+        .pic{
+            border: none;
+            text-align: center;
+        }              
+        .last-anchor-div {
+            height: 30px;
+            max-height: 30px;
+            margin-top: 30px;
+            text-align: center;
+            font-weight: 900;
+            font-size: 20px;
+        }
+        .last-anchor {
+            text-decoration: none;
+        }
+        .last-anchor:hover{
+            font-size: 30px;
+        }
+    </style>
+    
+</head>
+<body>
+    <div id="start" class="anchors">
+        <a href="#1" class="anchor">1 абзац</a>
+        <a href="#2" class="anchor">2 абзац</a>
+        <a href="#3" class="anchor">3 абзац</a>
+        <a href="#4" class="anchor">4 абзац</a>
+        <a href="#5" class="anchor">5 абзац</a>
+    </div>
+    <div id="1" class="paragraph_1">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ullamcorper sapien sed erat convallis hendrerit. Ut lorem est, fringilla id massa nec, porta gravida ex. Ut vel tellus sit amet purus dictum suscipit. Nam semper sapien quis lorem tempus auctor. Etiam rhoncus, metus non posuere fringilla, tellus mi auctor erat, eu fringilla velit est vitae ante. Maecenas fringilla, nisl eget bibendum molestie, nisl nisl auctor dolor, non tempus neque ex a nisi. Donec consectetur, sem tincidunt ultrices iaculis, tortor odio tempor tortor, quis iaculis lacus nisi a tellus. Fusce aliquam arcu dui, id suscipit sem vestibulum quis. Nullam tempus iaculis quam eu ullamcorper. Donec pellentesque purus nibh, gravida viverra nisi vulputate in. Sed faucibus arcu at nulla volutpat ullamcorper. Fusce quis aliquet elit. Vestibulum sit amet augue ipsum. Sed scelerisque suscipit arcu, eget imperdiet quam ornare vel. Mauris id pellentesque nisi, ac vehicula ex.
+    </div >
+    <ul class="ul1">
+        <li>devfwe</li>
+        <li>eqfq</li>
+            <ul class="ul2">
+                 <li>ewf</li>
+                 <li>fwef</li>
+             </ul>
+        <li>111111qiyf</li>
+    </ul>
+    <ol reversed type="I">
+        <li>devfwe</li>
+        <li>eqfq</li>
+    </ol>
+    <div id="2" class="paragraph_2">
+        Suspendisse sit amet vulputate nunc. Curabitur viverra, justo vel posuere luctus, leo enim mollis justo, ac rutrum sem enim sed urna. Vivamus ornare eros nec neque pulvinar condimentum. Vivamus congue ante ac efficitur fermentum. Cras in erat lorem. Fusce metus justo, vestibulum sed lorem nec, auctor pellentesque metus. Sed pharetra, orci ac molestie ultrices, mi leo consectetur tortor, sit amet fermentum turpis odio vel quam. Aenean fringilla elit ut nulla luctus pretium. Mauris purus quam, commodo vitae metus vel, condimentum auctor metus. Mauris aliquam bibendum libero at pulvinar. Fusce augue justo, accumsan a bibendum nec, sollicitudin placerat libero. Donec hendrerit est ipsum, mattis maximus ligula efficitur quis. Mauris laoreet posuere ultricies. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+    </div>
+    <div id="3" class="paragraph_3">
+        Sed dictum porttitor leo et volutpat. Etiam ut mauris tristique, posuere ante eu, dignissim risus. Praesent at sodales libero. Integer interdum metus felis, sit amet volutpat ex tincidunt vitae. Etiam sit amet ipsum iaculis, lobortis arcu lobortis, varius dolor. Quisque lobortis magna vitae purus efficitur, nec pulvinar nulla volutpat. Nulla euismod semper dolor ut congue. Fusce facilisis, elit pulvinar aliquet luctus, arcu nisl tempor purus, sit amet semper odio augue sollicitudin eros. Aliquam tincidunt tellus vitae dui rutrum, eget mattis leo rhoncus.
+    </div>
+    <div id="4" class="paragraph_4">
+        Maecenas dictum dictum tellus sit amet pharetra. Praesent vel felis mauris. Maecenas accumsan, lectus eget bibendum consectetur, felis ligula dapibus sapien, sed faucibus quam ex sed arcu. Proin blandit urna ut lobortis ornare. Quisque elementum nulla nisi, quis euismod quam sollicitudin vel. Integer a malesuada ante. Etiam cursus, tellus non rhoncus bibendum, magna odio cursus leo, nec tristique elit tortor vitae justo.
+    </div>
+    <div id="5" class="paragraph_5">
+        Duis mattis quam pretium iaculis pharetra. Nam at mi in lorem cursus iaculis ut non felis. In viverra maximus risus. Duis fermentum convallis nulla vel ultricies. Aliquam sodales massa pharetra, porta arcu a, aliquam ipsum. Nam congue elit non mauris commodo, non placerat nibh sollicitudin. Integer in eros ullamcorper, porttitor ipsum at, hendrerit velit. Vestibulum gravida molestie nulla et euismod. Nulla vel purus porttitor, tincidunt mi vel, vestibulum nisi. Sed faucibus dapibus scelerisque. Suspendisse ut sagittis dolor. Morbi molestie, neque id aliquam faucibus, nibh nisi pretium mi, commodo euismod est eros et purus. Proin tempor lectus et eros pretium, faucibus pharetra mauris tempor. Nunc est risus, dignissim eget ultrices finibus, bibendum bibendum nunc. Nulla tincidunt in tellus non mollis. Mauris mattis libero at ligula blandit, vitae viverra ipsum ultricies.
+    </div>
+    <div class="pic">
+        <a href="https://www.playstation.com/fi-fi/games/horizon-zero-dawn/" target="_blank">
+            <img src="Pic.jpg" alt="Тут должна быть картинка."></a>
+    </div> 
+    <div class="last-anchor-div">
+        <a class="last-anchor" href="#top">К началу</a>
+    </div>
+</body>
+</html>
