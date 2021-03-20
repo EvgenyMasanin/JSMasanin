@@ -1,0 +1,36 @@
+* { 
+    margin: 0;
+    padding: 0;
+} 
+body { 
+    background: black; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+}
+.lose-scrin {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    color: red;
+    width: 400px;
+    text-align: center;
+    background-color: rgb(0, 0, 0);
+    height: 200px;
+    font-family: 'Playfair Display', serif;
+    /* margin-top: 50px; */
+}
+.hidden {
+    display: none;
+}
+.visible {
+    display: flex;
+}
+.upper-text {
+    font-size: 80px;
+    margin-bottom: 20px;
+}
+.lower-text {
+
+}
