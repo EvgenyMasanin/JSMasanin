@@ -1,5 +1,6 @@
-import { ball } from './ball.js';
-import { platform } from './platform.js';
+import { GameObject } from './gameObject.js';
+import { Ball } from './ball.js';
+import { Platform } from './platform.js';
 import { field, canvas, context } from './field.js';
 import { Bonus } from './bonuses.js';
 
@@ -10,6 +11,9 @@ let brick = field.brick;
 field.setBricks();
 
 let bonuses = [];
+
+let ball = new Ball({x:330, y:260, width: 5, height: 5, speed: 2.5})
+let platform = new Platform()
 
 export const game = {
 
@@ -36,9 +40,9 @@ export const game = {
 
     restart() {
         field.setBricks();
-
         platform.x = canvas.width / 2 - platform.width / 2;
         platform.y = 440;
+        platform.width = 50;
     },
 
     isLose() {
@@ -48,7 +52,7 @@ export const game = {
             ball.y = 260;
             ball.dx = 0;
             ball.dy = 0;
-
+            bonuses = [];
             document.addEventListener('keydown', function listener() {
                 loseScrin.classList.remove('visible');
                 loseScrin.classList.add('hedden');
@@ -64,39 +68,42 @@ export const game = {
         requestAnimationFrame(game.mainLoop.bind(game));
         context.clearRect(0, 0, canvas.width, canvas.height);
         
-        platform.movePlatform();
+        platform.move();
 
-        bonuses.forEach(el => {
-            el.moveBonuse()
+        bonuses.forEach(bonus => {
+            bonus.move()
         })
 
-        ball.movaBall(canvas, wallSize);
+        ball.mova(canvas, wallSize);
         
         this.isLose();
 
-        platformCollide();
+        platform.collide(ball);
 
-        brickCollide();
-
-        bonuses.forEach(el => {
-            bonusCollide(el);
+        field.bricks.forEach((el, ind, arr) => {
+            if(el.collide(ind, arr, ball, bonuses)) {
+                return
+            }
         })
-        // bonusCollide();
+
+        bonuses.forEach(bonus => {
+            bonus.bonus(platform, bonuses);
+        })
 
         drawWalls();
 
-        ball.drawBall(context);
+        ball.draw(context);
 
         drawField();
 
-        platform.drawPlatform();
+        platform.draw();
 
-        bonuses.forEach(el=>{
-            el.drawBonus(context);
+        bonuses.forEach(bonus => {
+            bonus.draw(context);
         })
 
-        bonuses.forEach(el => {
-            el.isGone(canvas, bonuses)
+        bonuses.forEach(bonus => {
+            bonus.isGone(canvas, bonuses)
         })
 
         function drawWalls() {
@@ -129,124 +136,15 @@ export const game = {
             });
         };
 
-        function brickCollide() {
-            for (let i = 0; i < field.bricks.length; i++) {
-                if (field.bricks[i] == {})
-                    continue;
-                const currentBrick = field.bricks[i];
-                if (isCollide(ball, currentBrick)) {
-                    if (currentBrick.strangth == 1) {
-                        field.bricks.splice(i, 1);
-                    }
-                    else if (currentBrick.strangth > 1 && currentBrick.strangth < 4) {
-                        currentBrick.strangth--;
-                    }
-                    if (ball.x + ball.width > currentBrick.x &&
-                        ball.x < currentBrick.x + currentBrick.width &&
-                        ball.y + ball.height <= currentBrick.y + brick.margin) {
-                        ball.dy *= -1;
-                        ball.y = currentBrick.y - ball.height - 2;
-                    }
-                    else if (ball.x + ball.width > currentBrick.x &&
-                        ball.x < currentBrick.x + currentBrick.width &&
-                        ball.y >= currentBrick.y + currentBrick.height - brick.margin) {
-                        ball.dy *= -1;
-                        ball.y = currentBrick.y + currentBrick.height + ball.height + 2;
-                    }
-                    else if (ball.x <= currentBrick.x + currentBrick.width / 2 &&
-                        ball.y + ball.height >= currentBrick.y &&
-                        ball.y <= currentBrick.y + currentBrick.height) {
-                        ball.dx *= -1;
-                        ball.x = currentBrick.x - ball.width - 2
-                    }
-                    else if (ball.x > currentBrick.x + currentBrick.width / 2 &&
-                        ball.y + ball.height >= currentBrick.y &&
-                        ball.y <= currentBrick.y + currentBrick.height) {
-                        ball.dx *= -1;
-                        ball.x = currentBrick.x + currentBrick.width + ball.width + 2
-                    }
-                    //временный дебагер
-                    else {
-                        alert(`?
-                            ball.x = ${ball.x}
-                            ball.y = ${ball.y}
-                            ball.width = ${ball.width}
-                            ball.heght = ${ball.height}
-                            currentBrick.x = ${currentBrick.x}
-                            currentBrick.y = ${currentBrick.y}
-                            currentBrick.width = ${currentBrick.width}
-                            currentBrick.heght = ${currentBrick.height}
-                            `)
-                    }
-                    let r = Math.round(Math.random() * 100 + 1);
-                    let chance = [1,2,3,4,5];
-                    console.log(r);
-                    if (chance.includes(r)) {
-                        bonuses.push(new Bonus(currentBrick.x + currentBrick.width / 2, currentBrick.y + currentBrick.height))
-                    }
-                    break;
-                }
-            }
-        }
- 
-        function platformCollide() {
-            let leftSide = Object.create(platform),
-                rightSide = Object.create(platform),
-                centralSide = Object.create(platform);
+        // function bonusCollide(el) {
+        //     if (GameObject.isCollide(el, platform)) {
+        //         if (el.effect == 'grow') {
+        //             platform.width +=40;
+        //             platform.x -= 20;
+        //             bonuses.splice(0,1)
+        //         }
+        //     }
+        // }
 
-            leftSide.width = rightSide.width = centralSide.width = platform.width / 3;
-            centralSide.x = platform.x + platform.width / 3;
-            rightSide.x = platform.x + 2 * (platform.width / 3);
-
-            let wasCollide = false;
-            if (isCollide(ball, leftSide)) {
-                wasCollide = true;
-                if (ball.dx > 0) {
-                    ball.dx = ball.speed;
-                    ball.dx *= -1;
-                }
-                else
-                    ball.dx = ball.speed * -1;
-            }
-            else if (isCollide(ball, rightSide)) {
-                wasCollide = true;
-                if (ball.dx < 0) {
-                    ball.dx = ball.speed * -1
-                    ball.dx *= -1;
-                }
-                else
-                    ball.dx = ball.speed
-            }
-            else if (isCollide(ball, centralSide)) {
-                ball.dy = ball.speed + 1;
-                ball.dx = ball.speed - 2;
-                ball.dy *= -1;
-                ball.dx *= -1;
-                ball.y = platform.y - ball.height;
-            }
-            if (wasCollide == true) {
-                ball.dy = ball.speed;
-                ball.dy *= -1;
-                ball.y = platform.y - ball.height;
-                wasCollide = false;
-            }
-        }
-
-        function bonusCollide(el) {
-            if (isCollide(el, platform)) {
-                if (el.effect == 'grow') {
-                    platform.width +=40;
-                    platform.x -= 20;
-                    bonuses.splice(0,1)
-                }
-            }
-        }
-
-        function isCollide(ball, obj) {
-            return obj.x + obj.width - 1 >= ball.x &&
-                ball.x + ball.width >= obj.x &&
-                obj.y + obj.height + ball.height >= ball.y + ball.height &&
-                ball.y + ball.height >= obj.y
-        }
     },
 };

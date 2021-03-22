@@ -1,13 +1,11 @@
-export const ball = {
-    x: 330,
-    y: 260,
-    width: 5,
-    height: 5,
-    speed: 2.5, //0-3
-    dx: 0,
-    dy: 0,
+import { GameObject } from './gameObject.js'
 
-    movaBall(canvas, wallSize) {
+export class Ball extends GameObject{
+    constructor({ x, y, width, height, speed }) {
+        super(x, y, width, height, speed)
+    }
+
+    mova(canvas, wallSize) {
         this.x += this.dx;
         this.y += this.dy;
 
@@ -23,9 +21,9 @@ export const ball = {
             this.y = wallSize;
             this.dy *= -1;
         }
-    },
+    }
 
-    drawBall(context) {
+    draw(context) {
         if (this.dx || this.dy) {
             context.fillRect(this.x, this.y, this.width, this.height);
         }

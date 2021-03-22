@@ -1,4 +1,5 @@
 import { levels } from './levels.js';
+import { Brick } from './brick.js';
 
 export const canvas = document.getElementById('game');
 export const context = canvas.getContext('2d');
@@ -26,7 +27,7 @@ export const field ={
         width: 25,
     },
     wallSize: 12,
-    level: levels[0],
+    level: levels[1],
 
     setBricks() {
         this.bricks.splice(0, this.bricks.length)
@@ -47,17 +48,17 @@ export const field ={
                     strangth = 4;
                 }
                 if (this.level[i][j] != '') {
-                    this.bricks.push({
+                    this.bricks.push(new Brick({
                         x: this.wallSize + (this.brick.width + this.brick.margin) * j,
                         y: this.wallSize + (this.brick.height + this.brick.margin) * i,
-                        color: this.colorMap[colorCode],
                         width: this.brick.width,
                         height: this.brick.height,
+                        color: this.colorMap[colorCode],
                         strangth: strangth
-                    });
+                    }));
                 }
                 else {
-                    this.bricks.push({});
+                    this.bricks.push(new Brick({isExist: false}));
                 }
             }
         }
