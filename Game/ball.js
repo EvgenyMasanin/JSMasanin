@@ -1,13 +1,47 @@
 import { GameObject } from './gameObject.js'
 
 export class Ball extends GameObject{
-    constructor({ x, y, width, height, speed }) {
-        super(x, y, width, height, speed)
+    constructor({ x, y, side, speed }) {
+        super(x, y, side, side, speed)
+        this.side = side
     }
 
-    mova(canvas, wallSize) {
-        this.x += this.dx;
-        this.y += this.dy;
+    move(canvas, wallSize, field, bonuses, context) {
+        for (let i = 0; i <Math.abs(this.dx); i++) {
+            // alert(`from dx ${this.dx}`)
+            if(this.dx<0){
+                this.x -=1;
+            }
+            else {
+            this.x += 1;
+            }
+            let isEnd = false;
+            field.bricks.forEach((el, ind, arr) => {
+                isEnd = el.collide(ind, arr, this, bonuses)
+            if (isEnd) {
+                return
+            }
+        })
+        if(isEnd)
+        break
+        }
+        for (let i = 0; i < Math.abs(this.dy); i++) {
+            // alert(`from dy ${this.dy}`)
+            if(this.dy <0){
+                this.y -=1
+            }else{
+            this.y += 1;
+            }
+            let isEnd = false;
+            field.bricks.forEach((el, ind, arr) => {
+                isEnd = el.collide(ind, arr, this, bonuses)
+                if (isEnd) {
+                    return
+                }
+            })
+            if (isEnd)
+                break
+        }
 
         if (this.x < wallSize) {
             this.x = wallSize;
@@ -25,7 +59,8 @@ export class Ball extends GameObject{
 
     draw(context) {
         if (this.dx || this.dy) {
-            context.fillRect(this.x, this.y, this.width, this.height);
+            context.fillStyle = 'white';
+            context.fillRect(this.x, this.y, this.side, this.side);
         }
     }
 };

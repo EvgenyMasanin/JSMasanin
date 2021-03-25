@@ -26,8 +26,10 @@ export const field ={
         height: 12,
         width: 25,
     },
+
     wallSize: 12,
-    level: levels[1],
+
+    level: levels[0],
 
     setBricks() {
         this.bricks.splice(0, this.bricks.length)
@@ -62,5 +64,36 @@ export const field ={
                 }
             }
         }
+    },
+
+    drawWalls() {
+        context.fillStyle = 'lightgray';
+        context.fillRect(0, 0, canvas.width, this.wallSize);
+        context.fillRect(0, 0, this.wallSize, canvas.height);
+        context.fillRect(canvas.width - this.wallSize, 0, this.wallSize, canvas.height);
+    },
+
+    drawField() {
+        this.drawWalls()
+        field.bricks.forEach(brick => {
+            if (brick.strangth == 2) {
+                context.fillStyle = 'gray';
+                context.fillRect(brick.x, brick.y, brick.width, brick.height);
+
+                context.fillStyle = brick.color;
+                context.fillRect(brick.x + 2, brick.y + 2, brick.width - 4, brick.height - 4);
+            }
+            else if (brick.strangth == 3) {
+                context.fillStyle = 'gray';
+                context.fillRect(brick.x, brick.y, brick.width, brick.height);
+
+                context.fillStyle = brick.color;
+                context.fillRect(brick.x + 4, brick.y + 4, brick.width - 8, brick.height - 8);
+            }
+            else if (brick.strangth == 4 || brick.strangth == 1) {
+                context.fillStyle = brick.color;
+                context.fillRect(brick.x, brick.y, brick.width, brick.height);
+            }
+        });
     }
 }

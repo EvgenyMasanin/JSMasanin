@@ -3,7 +3,7 @@ import { GameObject } from './gameObject.js'
 
 export class Platform extends GameObject {
     constructor() {
-        super((canvas.width / 2 - field.brick.width / 2), 440, 50, 12, 5);
+        super((canvas.width / 2 - field.brick.width / 2), 440, 100, 12, 5);
     }
 
     move() {

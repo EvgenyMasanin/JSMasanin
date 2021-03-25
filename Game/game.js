@@ -1,18 +1,15 @@
-import { GameObject } from './gameObject.js';
 import { Ball } from './ball.js';
 import { Platform } from './platform.js';
 import { field, canvas, context } from './field.js';
-import { Bonus } from './bonuses.js';
 
 export const loseScrin = document.querySelector('.lose-scrin');
 
 let wallSize = field.wallSize;
-let brick = field.brick;
 field.setBricks();
 
 let bonuses = [];
 
-let ball = new Ball({x:330, y:260, width: 5, height: 5, speed: 2.5})
+let ball = new Ball({x:270, y:260, side: 5, speed: 3})//2.5
 let platform = new Platform()
 
 export const game = {
@@ -66,85 +63,49 @@ export const game = {
     mainLoop(){
         
         requestAnimationFrame(game.mainLoop.bind(game));
+        console.log('update');
         context.clearRect(0, 0, canvas.width, canvas.height);
         
         platform.move();
 
+        ball.move(canvas, wallSize, field, bonuses, context);
+        
+        platform.collide(ball);
+        
+        this.isLose();
+        
+        // field.bricks.forEach((el, ind, arr) => {
+        //     if (el.collide(ind, arr, ball, bonuses)) {
+        //         return
+        //     }
+        // })
+        
         bonuses.forEach(bonus => {
             bonus.move()
         })
-
-        ball.mova(canvas, wallSize);
         
-        this.isLose();
-
-        platform.collide(ball);
-
-        field.bricks.forEach((el, ind, arr) => {
-            if(el.collide(ind, arr, ball, bonuses)) {
-                return
-            }
-        })
-
         bonuses.forEach(bonus => {
-            bonus.bonus(platform, bonuses);
+            bonus.collide(platform, bonus, ball);
         })
 
-        drawWalls();
+        
+
+        
+
+        field.drawField();
 
         ball.draw(context);
-
-        drawField();
 
         platform.draw();
 
         bonuses.forEach(bonus => {
+            console.log('draw');
+            console.log(bonus);
             bonus.draw(context);
-        })
+        })//Изменить
 
         bonuses.forEach(bonus => {
             bonus.isGone(canvas, bonuses)
         })
-
-        function drawWalls() {
-            context.fillStyle = 'lightgray';
-            context.fillRect(0, 0, canvas.width, wallSize);
-            context.fillRect(0, 0, wallSize, canvas.height);
-            context.fillRect(canvas.width - wallSize, 0, wallSize, canvas.height);
-        }
-
-        function drawField() {
-            field.bricks.forEach(brick => {
-                if (brick.strangth == 2) {
-                    context.fillStyle = 'gray';
-                    context.fillRect(brick.x, brick.y, brick.width, brick.height);
-
-                    context.fillStyle = brick.color;
-                    context.fillRect(brick.x + 2, brick.y + 2, brick.width - 4, brick.height - 4);
-                }
-                else if (brick.strangth == 3) {
-                    context.fillStyle = 'gray';
-                    context.fillRect(brick.x, brick.y, brick.width, brick.height);
-
-                    context.fillStyle = brick.color;
-                    context.fillRect(brick.x + 4, brick.y + 4, brick.width - 8, brick.height - 8);
-                }
-                else if (brick.strangth == 4 || brick.strangth == 1) {
-                    context.fillStyle = brick.color;
-                    context.fillRect(brick.x, brick.y, brick.width, brick.height);
-                }
-            });
-        };
-
-        // function bonusCollide(el) {
-        //     if (GameObject.isCollide(el, platform)) {
-        //         if (el.effect == 'grow') {
-        //             platform.width +=40;
-        //             platform.x -= 20;
-        //             bonuses.splice(0,1)
-        //         }
-        //     }
-        // }
-
     },
 };
