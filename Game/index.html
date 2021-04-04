@@ -10,11 +10,48 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="lose-scrin hidden">
-        <p class="upper-text">You lose</p>
-        <p class="lower-text">press any key</p>
+    <div class="container">
+        <div id="lose-scrin" class="end-scrin hidden">
+            <p class="upper-text">You lose</p>
+            <p class="lower-text">press any key</p>
+        </div>
+        <div id="win-scrin" class="end-scrin hidden">
+            <p class="upper-text">You win</p>
+            <p class="lower-text">press any key</p>
+        </div>
+        <div class="field">
+            <canvas width ="400" height ="500" id="game" ></canvas>
+            <div class="status">
+                <div class="level">
+                    <span>Level - </span>
+                    <span id="level-numb">1</span>
+                </div>
+                <div class="HP cont">
+                    <div>Health:</div>
+                    <div id="health-count">❤ ❤ ❤</div>
+                </div>
+                <div class="player cont">
+                    <div>
+                        Player:
+                    </div>
+                    <div id="player-name">
+                        Player 1
+                    </div>
+                </div>
+                <div class="score cont">
+                    <div>Score:</div>
+                    <div id="score-count">0</div>
+                </div>
+                <div class="timer hidden">
+                    <div>Barier</div>
+                    <div id="external-timer">
+                        <div id="internal-timer"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
     </div>
-    <canvas width="400" height="500" id="game"></canvas>
     <script type="module" src="index.js"></script>
 </body>
 </html>

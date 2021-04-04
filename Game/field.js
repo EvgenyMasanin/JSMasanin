@@ -1,35 +1,57 @@
 import { levels } from './levels.js';
 import { Brick } from './brick.js';
+import { gameRules } from './gameRules.js';
 
 export const canvas = document.getElementById('game');
 export const context = canvas.getContext('2d');
+ 
+canvas.style.width = `${gameRules.canvas.width}px`
+canvas.style.height = `${gameRules.canvas.height}px`
+canvas.style.backgroundImage = `url(${gameRules.canvas.backgroundImageSRC})`
+
+
 
 export const field ={
     bricks: [],
     colorMap: {
-        R: 'red',
-        O: 'orange',
-        G: 'green',
-        Y: 'yellow',
-        Rst: 'red',
-        Ost: 'orange',
-        Gst: 'green',
-        Yst: 'yellow',
-        Rdur: 'red',
-        Odur: 'orange',
-        Gdur: 'green',
-        Ydur: 'yellow',
-        H: 'gray' //hindrance - помеха
+        R: './images/brick_red.png',
+        O: './images/brick_orange.png',
+        B: './images/brick_blue.png',
+        R1: './images/brick_red_strong.png',
+        O1: './images/brick_orange_strong.png',
+        B1: './images/brick_blue_strong.png',
+        R11: './images/brick_red_durable.png',
+        O11: './images/brick_orange_durable.png',
+        B11: './images/brick_blue_durable.png',
+        U: './images/brick_unbreakable.png' //unbreakable
     },
+    
     brick: {
-        margin: 2,
-        height: 12,
-        width: 25,
+        margin: gameRules.field.margin,
+        height: gameRules.field.height,
+        width: gameRules.field.width,
     },
 
-    wallSize: 12,
+    wallSize: gameRules.field.wallSize,
+    imageV: new Image(),
+    imageH: new Image(),
 
-    level: levels[0],
+    _level: levels[0],
+
+    get level() {
+        return this._level;
+    },
+
+    set level(numb) {
+        this._level = levels[numb]
+    },
+
+    init(level) {
+        this.level = level;
+        this.setBricks();
+        this.imageV.src = gameRules.field.verticalWallImageSRC;
+        this.imageH.src = gameRules.field.horizontalWallImageSRC;
+    },
 
     setBricks() {
         this.bricks.splice(0, this.bricks.length)
@@ -40,23 +62,29 @@ export const field ={
                 if (this.level[i][j] != '') {
                     strangth = 1;
                 }
-                if (this.level[i][j].endsWith('st')) {
-                    strangth = 2;
-                }
-                else if (this.level[i][j].endsWith('dur')) {
+                if (this.level[i][j].endsWith('11')) {
                     strangth = 3;
                 }
-                else if (this.level[i][j] == 'H') {
+                else if (this.level[i][j].endsWith('1')) {
+                    strangth = 2;
+                }
+                else if (this.level[i][j] == 'U') {
                     strangth = 4;
                 }
+
+                let image = new Image();
+                if (colorCode != '')
+                image.src = this.colorMap[colorCode]
                 if (this.level[i][j] != '') {
                     this.bricks.push(new Brick({
-                        x: this.wallSize + (this.brick.width + this.brick.margin) * j,
+                        x: this.wallSize + this.brick.margin / 2 + (this.brick.width + this.brick.margin) * j,
                         y: this.wallSize + (this.brick.height + this.brick.margin) * i,
                         width: this.brick.width,
                         height: this.brick.height,
-                        color: this.colorMap[colorCode],
-                        strangth: strangth
+                        imageCode: this.level[i][j],
+                        image: image,
+                        strangth: strangth,
+                        isExist: true,
                     }));
                 }
                 else {
@@ -67,32 +95,17 @@ export const field ={
     },
 
     drawWalls() {
-        context.fillStyle = 'lightgray';
-        context.fillRect(0, 0, canvas.width, this.wallSize);
-        context.fillRect(0, 0, this.wallSize, canvas.height);
-        context.fillRect(canvas.width - this.wallSize, 0, this.wallSize, canvas.height);
+        context.drawImage(this.imageH, this.wallSize, 0, canvas.width - this.wallSize, this.wallSize)
+        context.drawImage(this.imageV, 0, 0, this.wallSize, canvas.height)
+        context.drawImage(this.imageV, canvas.width - this.wallSize, 0, this.wallSize, canvas.height)
     },
 
     drawField() {
-        this.drawWalls()
+        this.drawWalls();
+
         field.bricks.forEach(brick => {
-            if (brick.strangth == 2) {
-                context.fillStyle = 'gray';
-                context.fillRect(brick.x, brick.y, brick.width, brick.height);
-
-                context.fillStyle = brick.color;
-                context.fillRect(brick.x + 2, brick.y + 2, brick.width - 4, brick.height - 4);
-            }
-            else if (brick.strangth == 3) {
-                context.fillStyle = 'gray';
-                context.fillRect(brick.x, brick.y, brick.width, brick.height);
-
-                context.fillStyle = brick.color;
-                context.fillRect(brick.x + 4, brick.y + 4, brick.width - 8, brick.height - 8);
-            }
-            else if (brick.strangth == 4 || brick.strangth == 1) {
-                context.fillStyle = brick.color;
-                context.fillRect(brick.x, brick.y, brick.width, brick.height);
+            if(brick.isExist){
+                context.drawImage(brick.image, brick.x, brick.y, brick.width, brick.height);
             }
         });
     }
