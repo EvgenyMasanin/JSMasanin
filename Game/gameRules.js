@@ -21,7 +21,7 @@ export const gameRules = {
     },
 
     status: {
-        level: 2,
+        level: 0,
         health: 3,
         player: 'Inexorable',
         score: 0
