@@ -92,6 +92,7 @@ function createNode(id, parent_id, newNode) {
             id,
             parent_id,
         }
+        
         parentNode.children.push(Object.assign(nodeInfo, newNode))
     }
 }
@@ -115,8 +116,50 @@ function getSiblings(id) {
     return getParent(id).children.filter(node => node.id != id)
 }
 
+function getMostNestedChildren(id) {
+    let node = getNodeById(id);
+    let leafNodes = [];
 
+    if(node.children != 0) {
+        getLeaf(node.children)
+    }
+    else
+        leafNodes.push(node)
 
+    return leafNodes;
+
+    function getLeaf(children) {
+
+        for (const child of children) {
+            if (child.children != 0) {
+                getLeaf(child.children)
+            }
+            else
+                leafNodes.push(child);
+        }
+    }
+}
+
+function getPathToItemById(id) {
+    let pathToItem = [];
+
+    pathToItem.push(getNodeById(id));
+    getPath(id);
+
+    return pathToItem.reverse();
+
+    function getPath(id) {
+        let node = getParent(id);
+        if(!node.parent_id) {
+            pathToItem.push(getParent(id));
+            return
+        }
+        else {
+            pathToItem.push(getParent(id));
+            getPath(getParent(id).id)
+        }
+    }
+}
 
 
 
@@ -126,6 +169,7 @@ function getSiblings(id) {
 
 
 // { "id": "9033c281-572f-487a-a6f5-3e2e28f9daed", "parent_id": "5b114f39-28fb-4771-948d-a1a5f7826600" }
+console.group('updateNodeById')
 console.log(Object.entries(getNodeById('9033c281-572f-487a-a6f5-3e2e28f9daed')));
 
 let newProps = {
@@ -135,23 +179,40 @@ let newProps = {
 }
 
 updateNodeById('9033c281-572f-487a-a6f5-3e2e28f9daed', newProps);
-
 console.log(getNodeById('9033c281-572f-487a-a6f5-3e2e28f9daed'));
+console.groupEnd()
 
+console.group('createNode')
 createNode('123', '9033c281-572f-487a-a6f5-3e2e28f9daed', { name: 'John', age: 20, parent_id: '9033c281-572f-487a-a6f5-3e2e28f9daed', children: []})
-
+console.log(getNodeById('123'));
+console.log(Object.entries(getNodeById('9033c281-572f-487a-a6f5-3e2e28f9daed')))
 try {
     createNode('123', '9033c281-572f-487a-a6f5-3e2e28f9daed', { name: 'John', age: 20, parent_id: '9033c281-572f-487a-a6f5-3e2e28f9daed', children: [] })
 } catch (error){}
+console.groupEnd()
 
-
+console.group('deleteNodeById')
 console.log(Object.entries(getNodeById('9033c281-572f-487a-a6f5-3e2e28f9daed')));
-
 deleteNodeById('123')
 console.log(getNodeById('9033c281-572f-487a-a6f5-3e2e28f9daed'));
+console.groupEnd();
 
+console.group('getParent')
+console.log(getNodeById('9033c281-572f-487a-a6f5-3e2e28f9daed'));
 console.log(getParent('9033c281-572f-487a-a6f5-3e2e28f9daed'))
+console.groupEnd();
 
+console.group('getSiblings')
+console.log(getNodeById('9033c281-572f-487a-a6f5-3e2e28f9daed'));
 console.log(getSiblings('9033c281-572f-487a-a6f5-3e2e28f9daed'))
+console.groupEnd();
 
-// updateNodeById('9033c281-e28f9dae', newProps);
+console.group('getMostNestedChildren')
+console.log(getNodeById('3d537081-374e-47f0-aeb8-a9ba9cfe1eb0'));
+console.log(getMostNestedChildren('3d537081-374e-47f0-aeb8-a9ba9cfe1eb0'));
+console.groupEnd()
+
+console.group('getPathToItemById')
+console.log(getNodeById('c9c7f41f-5bdf-4e76-8945-b656ee08a4f0'));
+console.log(getPathToItemById('c9c7f41f-5bdf-4e76-8945-b656ee08a4f0'));
+console.groupEnd()
