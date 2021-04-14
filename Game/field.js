@@ -13,18 +13,7 @@ canvas.style.backgroundImage = `url(${gameRules.canvas.backgroundImageSRC})`
 
 export const field ={
     bricks: [],
-    colorMap: {
-        R: './images/brick_red.png',
-        O: './images/brick_orange.png',
-        B: './images/brick_blue.png',
-        R1: './images/brick_red_strong.png',
-        O1: './images/brick_orange_strong.png',
-        B1: './images/brick_blue_strong.png',
-        R11: './images/brick_red_durable.png',
-        O11: './images/brick_orange_durable.png',
-        B11: './images/brick_blue_durable.png',
-        U: './images/brick_unbreakable.png' //unbreakable
-    },
+    colorMap: gameRules.field.colorMap,
     
     brick: {
         margin: gameRules.field.margin,

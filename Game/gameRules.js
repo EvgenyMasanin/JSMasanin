@@ -17,7 +17,19 @@ export const gameRules = {
         horizontalWallImageSRC: './images/horizontalWall.png',
         margin: 2,
         height: 16,
-        width: 45
+        width: 45,
+        colorMap: {
+            R: './images/brick_red.png',
+            O: './images/brick_orange.png',
+            B: './images/brick_blue.png',
+            R1: './images/brick_red_strong.png',
+            O1: './images/brick_orange_strong.png',
+            B1: './images/brick_blue_strong.png',
+            R11: './images/brick_red_durable.png',
+            O11: './images/brick_orange_durable.png',
+            B11: './images/brick_blue_durable.png',
+            U: './images/brick_unbreakable.png'
+        },
     },
 
     status: {
@@ -33,7 +45,7 @@ export const gameRules = {
         width: 80,
         height: 16,
         speed: 7,
-        color: 'cyan'
+        imageSRC: './images/platform.png'
     },
 
     barier: {
@@ -42,7 +54,7 @@ export const gameRules = {
         width: 376,
         height: 12,
         speed: 0,
-        color: 'gray'
+        imageSRC: './images/barier.png'
     },
 
     ball: {
@@ -77,7 +89,7 @@ export const gameRules = {
 
         ballMaxSide: 20,
         ballMinSide: 5,
-        ballResizeValue: 2, 
+        ballResizeValue: 12, 
 
         ballIncreaseProbability: 13,
         ballDecreaseProbability: 15,

@@ -1,13 +1,11 @@
 import { field, canvas, context } from './field.js'
 import { GameObject } from './gameObject.js'
 
-let image11 = new Image();
-image11.src = './images/platform.png'
-
 export class Platform extends GameObject {
-    constructor({x, y, width, height, speed, color}) {
+    constructor({x, y, width, height, speed, imageSRC}) {
         super(x, y, width, height, speed);
-        this.color = color;
+        this.image = new Image();
+        this.image.src = imageSRC;
     }
 
     static isBarierActive = false;
@@ -24,13 +22,10 @@ export class Platform extends GameObject {
     }
 
     draw() {
-        // context.fillStyle = this.color;
-        // context.fillRect(this.x, this.y, this.width, this.height);
-
-        context.drawImage(image11, this.x, this.y, this.width, this.height);
+        context.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
 
-    collide(ball) {
+    collide(ball, isBarier) {
         let leftSide = Object.create(this),
             rightSide = Object.create(this),
             centralSide = Object.create(this);
@@ -62,9 +57,8 @@ export class Platform extends GameObject {
         }
         else if (GameObject.isCollide(ball, centralSide)) {
             ball.dy = ball.speed + 1;
-            ball.dx = ball.speed - 2;
+            ball.dx < 0 ? ball.dx += 1 : ball.dx -= 1
             ball.dy *= -1;
-            ball.dx *= -1;
             ball.y = this.y - ball.height;
         }
         if (wasCollide == true) {

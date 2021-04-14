@@ -79,10 +79,9 @@ export class Bonus extends GameObject {
             probability: gameRules.bonus.barierProbability,
             value: gameRules.bonus.barierValue,
             duration: gameRules.bonus.barierDuration,
-            activeBarier: undefined,
+            activeTimer: null,
             applyBonus(status) {
                 Bonus.setTimer.call(this, status);
-                Bonus.drawTimer(this.duration)
             }
         },
         coin: {
@@ -101,35 +100,35 @@ export class Bonus extends GameObject {
         this.y += this.dy;
     };
 
-// Сделать обновление таймера барьера
     static setTimer(status) {
-        clearTimeout(this.activeBarier)
         Platform.isBarierActive = true;
-        this.activeBarier = setTimeout(() => Platform.isBarierActive = false, this.duration)
         status.score += this.value;
-        Bonus.drawTimer(this.duration)
-    }
-
-    static drawTimer(duration) {
-        let timer = document.querySelector('.timer');
-        let internalTimer = document.querySelector('#internal-timer')
-
-        timer.classList.add('visible')
-
-        internalTimer.style.width = 100 + '%';
+        drawTimer.call(this, this.duration);
         
-        let currentWidth = Number.parseInt(internalTimer.style.width);
 
-        let interval = setInterval(() => {
-            if (currentWidth >= 0) {
-                currentWidth -= duration / 60000;
-                internalTimer.style.width = currentWidth + '%';
-            }
-            else {
-                timer.classList.remove('visible')
-                clearInterval(interval);
-            }
-        }, duration / 600);
+        function drawTimer(duration) {
+            clearInterval(this.activeTimer)
+            let timer = document.querySelector('.timer');
+            let internalTimer = document.querySelector('#internal-timer')
+
+            timer.classList.add('visible')
+
+            internalTimer.style.width = 100 + '%';
+
+            let currentWidth = Number.parseInt(internalTimer.style.width);
+
+            this.activeTimer = setInterval(() => {
+                if (currentWidth >= 0) {
+                    currentWidth -= duration / 60000;
+                    internalTimer.style.width = currentWidth + '%';
+                }
+                else {
+                    timer.classList.remove('visible');
+                    Platform.isBarierActive = false;
+                    clearInterval(this.activeTimer);
+                }
+            }, duration / 600);
+        };
     }
 
     draw(context) {

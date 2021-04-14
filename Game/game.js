@@ -25,7 +25,7 @@ const platform = new Platform({
     width: gameRules.platform.width,
     height: gameRules.platform.height,
     speed: gameRules.platform.speed,
-    color: gameRules.platform.color
+    imageSRC: gameRules.platform.imageSRC,
 });
 
 const barier = new Platform({
@@ -34,7 +34,7 @@ const barier = new Platform({
     width: gameRules.barier.width,
     height: gameRules.barier.height,
     speed: gameRules.barier.speed,
-    color: gameRules.barier.color
+    imageSRC: gameRules.barier.imageSRC,
 });
 
 const ball = new Ball({
@@ -58,9 +58,12 @@ export const game = {
             else if (e.code === moveRightButtonCode) {
                 platform.dx = platform.speed;
             }
-
+            console.log(ball.dx);
+            console.log(ball.dy);
+            console.log(e.code);
             if (ball.dx === 0 && ball.dy === 0 && e.code === startButtonCode) {
                 this.isStarted = true;
+                // alert("Fghjk")
                 ball.dy = ball.speed * -2;
             }
         });
@@ -84,16 +87,20 @@ export const game = {
     ballPosBeforeStart() {
         if(!this.isStarted) {
             ball.x = platform.x + platform.width / 2 - ball.side / 2;
-            ball.y = ball.y = platform.y - ball.side - 1;
+            ball.y = platform.y - ball.side - 5;
         }
     },
 
     restart() {
-        field.setBricks();
+        this.isStarted = false;
         platform.x = gameRules.platform.x;
         platform.y = gameRules.platform.y;
         platform.width = gameRules.platform.width;
         ball.side = gameRules.ball.side;
+        ball.width = ball.side;
+        ball.height = ball.side;
+        ball.dx = 0;
+        ball.dy = 0;
         status.health = gameRules.status.health;
         status.score = gameRules.status.score;
         this.changeLevel();
@@ -107,8 +114,9 @@ export const game = {
     isLose(status) {
         if (ball.y > canvas.height) {
             this.isStarted = false;
-            this.ballPosBeforeStart();
             this.stop();
+            this.ballPosBeforeStart();
+            
             bonuses = [];
             if(status.health <= 1) {
                 loseScrin.classList.add('visible');
@@ -131,13 +139,13 @@ export const game = {
             if(!field.bricks.find(brick => brick.isExist && brick.imageCode != 'U')){
                 this.isStarted = false;
                 winScrin.classList.add('visible');
-                this.ballPosBeforeStart();
                 this.stop()
+                this.ballPosBeforeStart();
+                
                 bonuses = [];
                 document.addEventListener('keydown', function listener() {
                     winScrin.classList.remove('visible');
                     game.restart();
-                    // document.removeEventListener('keydown', listener);
                 }, { once: true });
             }
         }
@@ -150,8 +158,6 @@ export const game = {
         
         this.ballPosBeforeStart();
 
-        
-
         ball.move(canvas, field.wallSize, field, bonuses, status);
         
         platform.move();
@@ -162,7 +168,7 @@ export const game = {
         this.isLose(status);
         
         bonuses.forEach(bonus => {
-            bonus.move()
+            bonus.move();
         })
         
         bonuses.forEach(bonus => {
@@ -170,11 +176,9 @@ export const game = {
         })
 
         if (Platform.isBarierActive) {
-            barier.collide(ball);
+            barier.collide(ball, true);
             barier.draw();
         }
-
-        
 
         status.updateStatus();
 
