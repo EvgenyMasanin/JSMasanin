@@ -1,0 +1,8 @@
+.button:hover {
+    color: #c2bfbf;
+}
+
+th:hover {
+    background-color: #3f3f44;
+    transition: .5s;
+}
