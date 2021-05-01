@@ -12,14 +12,17 @@ tableContainer.style.minWidth = '325px'
 tableContainer.style.minHeight = '286px'
 tableContainer.style.padding = '10px'
 wrapper.append(tableContainer)
-
+const cash = new Set()
 let now = new Date()
 createCalendar(tableContainer, table, now, 2)
 
+
+
 function createCalendar(tableContainer, table, now, firstDayNum) {
     createHeader()
-    createBody()
-    function createBody() {
+    createBody(now)
+
+    function createBody(now) {
         let firstDay = new Date(
             now.getFullYear(),
             now.getMonth(),
@@ -44,8 +47,16 @@ function createCalendar(tableContainer, table, now, firstDayNum) {
                     now.getDate()
                 )
                 tmp.setDate(dayNum)
+                const tmpDate = tmp.toLocaleString("ru", {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                })
                 if (tmp.getMonth() !== now.getMonth()) {
                     th.style.color = 'gray'
+                }
+                if (cash.has(tmpDate)) {
+                    th.style.color = 'red'
                 }
                 const rightNow = new Date()
                 if (dayNum === rightNow.getDate() && tmp.getMonth() === rightNow.getMonth()) {
@@ -56,10 +67,21 @@ function createCalendar(tableContainer, table, now, firstDayNum) {
                 th.append(tmp.getDate())
                 tr.append(th)
                 dayNum++
+                th.addEventListener('click', () => {
+                    if (th.style.color === 'red') {
+                        th.style.color = 'white'
+                        cash.delete(tmpDate)
+                    }
+                    else {
+                        th.style.color = 'red'
+                        cash.add(tmpDate)
+                    }
+                })
             }
             table.append(tr)
-        }
-        tableContainer.append(table)
+
+        tableContainer.append(table)    
+    }
     }
     function createHeader() {
         const days = [
@@ -159,5 +181,6 @@ function createCalendar(tableContainer, table, now, firstDayNum) {
         table.append(secondHeader)
     }
 }
+
 
 
