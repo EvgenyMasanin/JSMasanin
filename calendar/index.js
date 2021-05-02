@@ -59,7 +59,7 @@ function createCalendar(tableContainer, table, now, firstDayNum) {
                     th.style.color = 'red'
                 }
                 const rightNow = new Date()
-                if (dayNum === rightNow.getDate() && tmp.getMonth() === rightNow.getMonth()) {
+                if (dayNum === rightNow.getDate() && tmp.getMonth() === rightNow.getMonth() && tmp.getFullYear() === rightNow.getFullYear()) {
                     th.style.backgroundColor = 'rgb(0, 120, 215)'
                     th.style.border = '5px rgb(38, 38, 42) solid'
                     th.style.outline = '3px rgb(0, 120, 215) solid'
