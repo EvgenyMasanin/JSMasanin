@@ -6,3 +6,7 @@ th:hover {
     background-color: #3f3f44;
     transition: .5s;
 }
+::-webkit-calendar-picker-indicator { 
+    background-color: #c2bfbf;
+    border-radius: 5px;
+}
