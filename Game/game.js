@@ -58,12 +58,8 @@ export const game = {
             else if (e.code === moveRightButtonCode) {
                 platform.dx = platform.speed;
             }
-            console.log(ball.dx);
-            console.log(ball.dy);
-            console.log(e.code);
             if (ball.dx === 0 && ball.dy === 0 && e.code === startButtonCode) {
                 this.isStarted = true;
-                // alert("Fghjk")
                 ball.dy = ball.speed * -2;
             }
         });
@@ -158,7 +154,12 @@ export const game = {
         
         this.ballPosBeforeStart();
 
-        ball.move(canvas, field.wallSize, field, bonuses, status);
+        if (status.isBotOn) {
+            ball.move(canvas, field.wallSize, field, bonuses, status, platform);
+        } else {
+            ball.move(canvas, field.wallSize, field, bonuses, status);
+        }
+
         
         platform.move();
         
@@ -190,7 +191,7 @@ export const game = {
 
         bonuses.forEach(bonus => {
             bonus.draw(context);
-        })//Изменить
+        })
 
         bonuses.forEach(bonus => {
             bonus.isGone(canvas, bonuses)

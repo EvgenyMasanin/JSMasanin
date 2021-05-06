@@ -31,9 +31,9 @@ body {
     justify-content: space-between;
     position: absolute;
     top: 25px;
-    right: -150px;
+    right: -200px;
     min-height: 170px;
-    width: 100px;
+    width: 150px;
 }
 
 .level {
@@ -56,6 +56,23 @@ body {
 .score {
     color: orange;
 }
+#bot-button {
+    margin-top: 20px;
+    width: 120px;
+    padding: 10px;
+    border-radius: 50px;
+    border: none;
+    background-color: orange;
+    font-weight: bold;
+    text-align: center;
+}
+#bot-button:focus {
+    outline: none;
+}
+#bot-button:hover {
+    background-color: rgb(253, 193, 82);
+}
+
 .end-scrin {
     display: flex;
     flex-direction: column;

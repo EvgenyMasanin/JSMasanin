@@ -9,13 +9,15 @@ export class Ball extends GameObject{
         this.side = side
     }
 
-    move(canvas, wallSize, field, bonuses, status) {
+    move(canvas, wallSize, field, bonuses, status, platform) {
         for (let i = 0; i < Math.abs(this.dx); i++) {
             if(this.dx < 0){
-                this.x -=1;
+                this.x -= 1;
+                if(platform) platform.x -= 1;
             }
             else {
                 this.x += 1;
+                if(platform) platform.x += 1;
             }
 
             let isEnd = false;

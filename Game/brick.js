@@ -15,7 +15,7 @@ export class Brick extends GameObject {
 
     collide(ind, arr, ball, bonuses, status) {
 
-        if (this.isExist == false) {
+        if (!this.isExist) {
             return false
         }
 

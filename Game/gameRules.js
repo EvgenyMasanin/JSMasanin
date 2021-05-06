@@ -1,5 +1,3 @@
-// import { field, canvas, context } from './field.js';
-
 let canvasWidth = 400;
 let fieldBrickWidth = 45
 let fieldWallSize = 12
@@ -67,21 +65,20 @@ export const gameRules = {
     brickValue: 100,
 
     bonus: {
-        chance: 8,
+        chance: 10,
         coinChance: 20,
 
         bonusRadius: 10,
 
-        
         platformMaxWidth : 200,
         platformMinWidth : 40,
         
-        platformResizeValue : 10,
+        platformResizeValue : 20,
         platformIncreaseProbability : 13,
         platformDecreaseProbability : 15,
         
         platformIncreaseValue : -50,
-        platformDecreaseValue : 50,
+        platformDecreaseValue : 100,
         
         platformIncreaseImageSRC: './images/bonus_platform_increase.png',
         platformDecreaseImageSRC: './images/bonus_platform_decrease.png',
@@ -89,25 +86,25 @@ export const gameRules = {
 
         ballMaxSide: 20,
         ballMinSide: 5,
-        ballResizeValue: 12, 
+        ballResizeValue: 5, 
 
         ballIncreaseProbability: 13,
         ballDecreaseProbability: 15,
         
         ballIncreaseValue: -50,
-        ballDecreaseValue: 50,
+        ballDecreaseValue: 100,
 
         ballIncreaseImageSRC: './images/bonus_ball_increase.png',
         ballDecreaseImageSRC: './images/bonus_ball_decrease.png',
 
 
         barierProbability: 12,
-        barierValue: -100,
+        barierValue: -150,
         barierDuration: 10000,
         barierImageSRC: './images/bonus_barier.png',
 
         coinProbability: 42,
-        coinValue: 200,
+        coinValue: 300,
         coinImageSRC: './images/bonus_coin.png',
     }
 }

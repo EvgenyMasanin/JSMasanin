@@ -2,6 +2,7 @@ const levelNumb = document.querySelector('#level-numb');
 const healthCount = document.querySelector('#health-count');
 const playerName = document.querySelector('#player-name');
 const scoreCount = document.querySelector('#score-count');
+const botButton = document.querySelector('#bot-button');
 
 export class Status{
     constructor({level, health, player, score}) {
@@ -9,7 +10,21 @@ export class Status{
         this.health = health;
         this.player = player;
         this._score = score;
+
+        botButton.addEventListener('click', () => {
+            botButton.blur()
+            if(this.isBotOn) {
+                this.isBotOn = false
+                botButton.textContent = 'Auto game off'
+            }
+            else {
+                this.isBotOn = true
+                botButton.textContent = 'Auto game on'
+            }
+        });
     };
+
+    isBotOn = false;
 
     set score(value) {
         this._score = value;
