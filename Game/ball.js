@@ -13,11 +13,11 @@ export class Ball extends GameObject{
         for (let i = 0; i < Math.abs(this.dx); i++) {
             if(this.dx < 0){
                 this.x -= 1;
-                if(platform) platform.x -= 1;
+                if (platform && this.x < platform.x + platform.width / 3) platform.x -= 1,2;
             }
             else {
                 this.x += 1;
-                if(platform) platform.x += 1;
+                if (platform && this.x > platform.x + 2 * (platform.width / 3)) platform.x += 1,2;
             }
 
             let isEnd = false;

@@ -70,8 +70,12 @@ export const game = {
         })
     },
 
-    changeLevel() {
-        if (status.level < levels.length - 1){
+    changeLevel(isLose) {
+        if(isLose) {
+            status.level = 0
+            field.init(status.level)
+        }
+        else if (status.level < levels.length - 1){
             status.level = ++status.level
             field.init(status.level)
         }
@@ -87,7 +91,7 @@ export const game = {
         }
     },
 
-    restart() {
+    restart(islose) {
         this.isStarted = false;
         platform.x = gameRules.platform.x;
         platform.y = gameRules.platform.y;
@@ -99,7 +103,7 @@ export const game = {
         ball.dy = 0;
         status.health = gameRules.status.health;
         status.score = gameRules.status.score;
-        this.changeLevel();
+        this.changeLevel(islose);
     },
 
     stop() {
@@ -118,9 +122,10 @@ export const game = {
                 loseScrin.classList.add('visible');
                 status.score -= 200;
                 status.health--;
+                // status.level = 0
                 document.addEventListener('keydown', function listener() {
                     loseScrin.classList.remove('visible');
-                    game.restart();
+                    game.restart(true);
                 }, { once: true });
             }
             else {
