@@ -14,13 +14,15 @@ const holidays = {
     '1 мая': 'red',
     '8 марта': '#ff869a',
     '23 февраля': 'orange',
-    '25 июля': 'blue'
+    '25 июля': 'blue',
+    '1 сентября': 'yellow'
 }
 let now = new Date()
-createCalendar(tableContainer, table, now, {
+const config = {
     firstDayNum: 2,
     holidays
-})
+}
+createCalendar(tableContainer, table, now, config)
 
 
 
