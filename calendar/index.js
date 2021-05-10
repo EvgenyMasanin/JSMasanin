@@ -1,7 +1,7 @@
 const wrapper = document.querySelector('.wrapper')
 const tableContainer = document.createElement('div')
 const table = document.createElement('table')
-
+table.classList.add('table')
 table.style.width = '100%'
 table.style.userSelect = 'none'
 tableContainer.style.backgroundColor = '#26262a'
@@ -132,15 +132,6 @@ function createCalendar(tableContainer, table, now, config) {
         firstHeader.style.alignItems = 'center'
         firstHeader.style.padding = '0 17px'
 
-        const title = document.createElement('div')
-        title.style.fontWeight = 'bold'
-
-        let titleData = now.toLocaleString("ru", {
-            year: 'numeric',
-            month: 'long',
-        })
-        title.textContent = titleData[0].toUpperCase() + titleData.slice(1)
-
         const buttonContainer = document.createElement('div')
         buttonContainer.style.width = '70px'
         buttonContainer.style.display = 'flex'
@@ -155,6 +146,7 @@ function createCalendar(tableContainer, table, now, config) {
 
         changeButton.addEventListener('click', () => {
             config.firstDayNum === 2 ? config.firstDayNum = 1 : config.firstDayNum = 2
+            fillFirstHeader()
             refresh(0, config.firstDayNum)
         })
 
@@ -165,12 +157,14 @@ function createCalendar(tableContainer, table, now, config) {
             refresh(1, config.firstDayNum)
         })
 
-        function refresh(direction, firstDayNum) {
-            table.innerHTML = ''
-            firstHeader.innerHTML = ''
-            tableContainer.innerHTML = ''
+        function refresh(direction) {
+            [...table.children].forEach((td, ind) => {
+                if(ind > 0)
+                td.parentNode.removeChild(td)
+            })
             now.setMonth(now.getMonth() + direction)
-            createCalendar(tableContainer, table, now, config)
+            fillSecondHeader()
+            createBody(now)
         }
         {
         // const dataSelect = document.createElement('input')
@@ -224,9 +218,12 @@ function createCalendar(tableContainer, table, now, config) {
             dataSelect.options.add(option)
         });
 
-        dataSelect.value = now.getMonth()
         const yearInput = document.createElement('input')
-        yearInput.value = now.getFullYear()
+        fillSecondHeader()
+        function fillSecondHeader() {
+            dataSelect.value = now.getMonth()
+            yearInput.value = now.getFullYear()
+        }
         yearInput.style.width = '50px'
         yearInput.style.color = 'white'
         yearInput.style.fontWeight = 'bold'
@@ -267,24 +264,28 @@ function createCalendar(tableContainer, table, now, config) {
         tableContainer.append(firstHeader)
 
         const secondHeader = document.createElement('tr')
-        days.forEach((day, ind) => {
-            const td = document.createElement('td')
-            td.style.height = '30px'
-            td.style.padding = '3px'
-            td.style.textAlign = 'center'
-            td.style.fontWeight = 'bold'
-            if (config.firstDayNum === 1) {
-                ind === 0 ? td.textContent = days[6] : td.textContent = days[ind - 1]
-                secondHeader.append(td)
-            }
-            else {
-                td.textContent = day
-                secondHeader.append(td)
-            }
-            if (td.textContent === days[5] || td.textContent === days[6]) {
-                td.style.color = 'red'
-            }
-        })
+        fillFirstHeader()
+        function fillFirstHeader() {
+            secondHeader.innerHTML = ''
+            days.forEach((day, ind) => {
+                const td = document.createElement('td')
+                td.style.height = '30px'
+                td.style.padding = '3px'
+                td.style.textAlign = 'center'
+                td.style.fontWeight = 'bold'
+                if (config.firstDayNum === 1) {
+                    ind === 0 ? td.textContent = days[6] : td.textContent = days[ind - 1]
+                    secondHeader.append(td)
+                }
+                else {
+                    td.textContent = day
+                    secondHeader.append(td)
+                }
+                if (td.textContent === days[5] || td.textContent === days[6]) {
+                    td.style.color = 'red'
+                }
+            })
+        }
         table.append(secondHeader)
     }
 }
