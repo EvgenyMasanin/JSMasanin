@@ -16,7 +16,6 @@ const holidays = {
     '23 февраля': 'orange',
     '25 июля': 'blue'
 }
-const importantDates = new Set()
 let now = new Date()
 createCalendar(tableContainer, table, now, {
     firstDayNum: 2,
@@ -26,6 +25,8 @@ createCalendar(tableContainer, table, now, {
 
 
 function createCalendar(tableContainer, table, now, config) {
+    const importantDates = new Set()
+
     createHeader()
     createBody(now)
 
@@ -201,7 +202,6 @@ function createCalendar(tableContainer, table, now, config) {
         dataContainer.style.width = '160px'
         dataContainer.style.justifyContent = 'space-between'
         
-
         const dataSelect = document.createElement('select')
         dataSelect.style.color = 'white'
         dataSelect.style.fontWeight = 'bold'
@@ -240,11 +240,13 @@ function createCalendar(tableContainer, table, now, config) {
                     yearInput.value,
                     dataSelect.value
                 )
-                dataSelect.selectedOptions = dataSelect.value
-                table.innerHTML = ''
-                firstHeader.innerHTML = ''
-                tableContainer.innerHTML = ''
-                createCalendar(tableContainer, table, newDate, config)
+                dataSelect.selectedOptions = dataSelect.value;
+
+                [...table.children].forEach((td, ind) => {
+                    if (ind > 0)
+                        td.parentNode.removeChild(td)
+                })
+                createBody(newDate)
             }
             else {
                 yearInput.value = now.getFullYear()
