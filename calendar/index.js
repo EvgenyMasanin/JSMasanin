@@ -149,8 +149,8 @@ function createCalendar(tableContainer, table, now, config) {
 
         changeButton.addEventListener('click', () => {
             config.firstDayNum === 2 ? config.firstDayNum = 1 : config.firstDayNum = 2
+            changeDate()
             fillFirstHeader()
-            refresh(0, config.firstDayNum)
         })
 
         leftButton.addEventListener('click', () => {
