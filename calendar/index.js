@@ -248,7 +248,8 @@ function createCalendar(tableContainer, table, now, config) {
                     if (ind > 0)
                         td.parentNode.removeChild(td)
                 })
-                createBody(newDate)
+                now = newDate
+                createBody(now)
             }
             else {
                 yearInput.value = now.getFullYear()
