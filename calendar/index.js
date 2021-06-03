@@ -17,7 +17,8 @@ const holidays = {
     '25 июля': 'blue',
     '1 сентября': 'yellow'
 }
-let now = new Date()
+
+let now = new Date() 
 const config = {
     firstDayNum: 2,
     holidays
